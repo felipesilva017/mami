@@ -1,0 +1,77 @@
+final float intervalo = 1.0/60;
+float tAtual = 0;
+float vinicial = random(10,20);
+float aAtual = -3;
+float dAtual;
+
+void setup() {
+  size(600, 600);
+}
+
+void draw() {
+  background(220);
+  stroke(0);
+  textSize(16);
+  
+  // Mostra mundo
+  mostraMundo(50, height - 50, 550, 500);
+  
+  // Mostra ponto
+  fill(255, 0, 0);
+  noStroke();
+  dAtual = MRUV(vinicial, aAtual, tAtual);
+  circle(50 + (tAtual / 5) * 100, height - (dAtual / 10) * 100, 10);
+  
+  // Mostra informações
+  fill(0);
+  textAlign(LEFT, BOTTOM);
+  text("Tempo: " + nf(tAtual, 1, 2) + "s", 50, 50);
+  textAlign(RIGHT, BOTTOM);
+  text("Deslocamento: " + nf(dAtual, 1, 2) + "m", width - 50, height - 50);
+  
+  tAtual += intervalo;
+}
+
+float MRUV(float v, float a, float t) {
+  float d = v * t + a * t * t / 2.0;
+  return d;
+}
+
+void mostraMundo(float x, float y, float largura, float altura) {
+  // Linhas verticais
+  stroke(200);
+  for (int i = 0; i <= 10; i++) {
+    float xi = x + i * largura / 10;
+    line(xi, y, xi, y - altura);
+    textAlign(CENTER, TOP);
+    text(nf(i, 1, 0) + "s", xi, y + 10);
+  }
+  
+  // Linhas horizontais
+  stroke(200);
+  for (int i = 0; i <= 10; i++) {
+    float yi = y - i * altura / 10;
+    line(x, yi, x + largura, yi);
+    textAlign(RIGHT, CENTER);
+    text(nf(i, 1, 0) + "m", x - 10, yi);
+  }
+  
+  // Eixo x
+  stroke(0);
+  line(x, y, x + largura, y);
+  textAlign(CENTER, TOP);
+  text("(s)", x + largura / 2, y + 30);
+  
+  // Eixo y
+  line(x, y, x, y - altura);
+  textAlign(RIGHT, CENTER);
+  text("(m)", x - 30, y - altura / 2);
+}
+
+void mouseClicked() {
+  if (true) {
+    tAtual = 0;
+    vinicial = random(10,20);
+    aAtual = -3;
+  } 
+}
