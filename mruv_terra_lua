@@ -1,0 +1,140 @@
+final float intervalo = 1.0/60;
+float tAtual = 0;
+float vinicialTerra = random(20, 30);
+float vinicialLua = random(10, 15);
+float aAtualTerra = -9.8;
+float aAtualLua = -1.62;
+float dAtualTerra;
+float dAtualLua;
+float xTerra = 50;
+float yTerra = height - 50;
+float xLua = 50;
+float yLua = height - 50;
+float diametro = 10;
+
+
+void setup() {
+  size(650, 600);
+}
+
+void draw() {
+  background(255);
+  stroke(0);
+  textSize(16);
+
+  // Mostra mundo
+  mostraMundo(50, height - 50, 550, 500);
+
+  // Mostra informações
+  info();
+
+  // Desenha bolinha e rastro
+  bolinhaTerra();
+  bolinhaLua();
+}
+
+float MRUV(float v, float a, float t) {
+  float d = v * t + 0.5 * a * t * t;
+  return d;
+}
+
+void bolinhaTerra() {
+noStroke();
+fill(0, 0, 255, 100);
+for (int i = 0; i <= int(tAtual / intervalo); i++) {
+float d = MRUV(vinicialTerra, aAtualTerra, tAtual - i * intervalo);
+float xi = 50 + ((tAtual - i * intervalo) / 5) * 100;
+float yi = height - (d / 10) * 100;
+circle(xi, yi, diametro);
+}
+
+// Mostra bolinha atual
+fill(0, 0, 255);
+noStroke();
+dAtualTerra = MRUV(vinicialTerra, aAtualTerra, tAtual);
+float xi = 50 + (tAtual / 5) * 100;
+float yi = height - (dAtualTerra / 10) * 100;
+circle(xi, yi, diametro);
+
+// Move bolinha
+xTerra = xi;
+yTerra = yi;
+
+tAtual += intervalo;
+}
+
+void bolinhaLua() {
+noStroke();
+fill(255, 0, 0, 100);
+for (int i = 0; i <= int(tAtual / intervalo); i++) {
+float d = MRUV(vinicialLua, aAtualLua, tAtual - i * intervalo);
+float xi = 50 + ((tAtual - i * intervalo) / 5) * 100;
+float yi = height - (d / 10) * 100;
+circle(xi, yi, diametro);
+}
+
+// Mostra bolinha atual
+fill(255, 0, 0);
+noStroke();
+dAtualLua = MRUV(vinicialLua, aAtualLua, tAtual);
+float xi = 50 + (tAtual / 5) * 100;
+float yi = height - (dAtualLua / 10) * 100;
+circle(xi, yi, diametro);
+
+// Move bolinha
+xTerra = xi;
+yTerra = yi;
+
+tAtual += intervalo;
+}
+
+void mostraMundo(float x, float y, float largura, float altura) {
+  // Linhas verticais
+  fill(0);
+  stroke(200);
+  for (int i = 0; i <= 10; i++) {
+    float xi = x + i * largura / 10;
+    line(xi, y, xi, y - altura);
+    textAlign(CENTER, TOP);
+    text(nf(i, 1, 0) + "s", xi, y + 10);
+  }
+
+  // Linhas horizontais
+  stroke(200);
+  for (int i = 0; i <= 10; i++) {
+    float yi = y - i * altura / 10;
+    line(x, yi, x + largura, yi);
+    textAlign(RIGHT, CENTER);
+    text(nf(i, 1, 0) + "m/s", x - 10, yi);
+  }
+
+  // Eixo x
+  stroke(0);
+  line(x, y, x + largura, y);
+  textAlign(CENTER, TOP);
+
+  // Eixo y
+  line(x, y, x, y - altura);
+  textAlign(RIGHT, CENTER);
+}
+
+void info() {
+  fill(0);
+  textAlign(LEFT, BOTTOM);
+  text("Tempo: " + nf(tAtual, 1, 2) + "s", 50, 50);
+  textAlign(RIGHT, BOTTOM);
+  text("Deslocamento na Terra: " + nf(dAtualTerra, 1, 2) + "m", width - 50, height - 75);
+  text("Deslocamento na Lua: " + nf(dAtualLua, 1, 2) + "m", width - 50, height - 50);
+}
+
+
+void mousePressed() {
+  if (true) {
+    tAtual = 0;
+    vinicialTerra = random(20, 30);
+    aAtualTer
+    ra = -9.8;
+    vinicialLua = random(10, 15);
+    aAtualLua = -1.62;
+  }
+}
