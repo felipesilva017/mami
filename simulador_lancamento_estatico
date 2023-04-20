@@ -1,0 +1,50 @@
+final float intervalo = 1.0/60;
+float tAtual = 0;
+float vinicial = random(10,15);
+float aAtual = -3;
+float dAtual;
+
+void setup() {
+  size(600, 600);
+  background(220);
+  stroke(0);
+  textSize(16);
+  
+  // Mostra mundo
+  mostraMundo(50, height - 50, 550, 600);
+  
+  while (dAtual >= 0) {
+    // Mostra ponto
+    fill(255, 0, 0);
+    noStroke();
+    dAtual = MRUV(vinicial, aAtual, tAtual);
+    circle(50 + (tAtual / 5) * 100, height - (dAtual / 5) * 100, 10);
+    
+    tAtual += intervalo;
+  }
+}
+
+float MRUV(float v, float a, float t) {
+  float d = v * t + a * t * t / 2.0;
+  return d;
+}
+
+void mostraMundo(float x, float y, float largura, float altura) {
+  // Linhas verticais
+  stroke(200);
+  for (int i = 0; i <= 10; i++) {
+    float xi = x + i * largura / 10;
+    line(xi, y, xi, y - altura);
+    textAlign(CENTER, TOP);
+    text(nf(i, 1, 0) + "s", xi, y + 10);
+  }
+  
+  // Linhas horizontais
+  stroke(200);
+  for (int i = 0; i <= 20; i++) {
+    float yi = y - i * altura / 20;
+    line(x, yi, x + largura, yi);
+    textAlign(RIGHT, CENTER);
+    text(nf(i, 1, 0) + "m", x - 10, yi);
+  }
+}
