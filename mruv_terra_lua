@@ -132,8 +132,7 @@ void mousePressed() {
   if (true) {
     tAtual = 0;
     vinicialTerra = random(20, 30);
-    aAtualTer
-    ra = -9.8;
+    aAtualTerra = -9.8;
     vinicialLua = random(10, 15);
     aAtualLua = -1.62;
   }
